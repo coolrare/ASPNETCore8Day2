@@ -1,7 +1,56 @@
+﻿using System;
+using System.Net;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Http;
+
 var builder = WebApplication.CreateBuilder(args);
 
 var app = builder.Build();
 
-app.MapGet("/", () => "Hello World!");
+app.Use保哥專用的例外處理程式();
+
+app.Use(async (context, next) =>
+{
+    var remoteIpAddress = context.Connection.RemoteIpAddress;
+
+    if (判斷是否允許瀏覽該網站(remoteIpAddress))
+    {
+        await next();
+    }
+    else
+    {
+        await context.Response.WriteAsync("Bad request");
+    }
+});
+
+bool 判斷是否允許瀏覽該網站(IPAddress? remoteIpAddress)
+{
+    return false;
+}
+
+app.Use(async (context, next) =>
+{
+    context.Response.ContentType = "text/html; charset=utf-8";
+
+    await context.Response.WriteAsync("<h1>");
+
+    await next();
+
+    await context.Response.WriteAsync("</h1>");
+});
+
+app.Use(async (context, next) =>
+{
+    await context.Response.WriteAsync("3");
+
+    await next();
+
+    await context.Response.WriteAsync("4");
+});
+
+app.Run(async (context) =>
+{
+    await context.Response.WriteAsync("5");
+});
 
 app.Run();
