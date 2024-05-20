@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 
-namespace ASPNETCore8Day2.Controllers
+namespace AngularApp1.Server.Controllers
 {
     [ApiController]
     [Route("[controller]")]
@@ -8,7 +8,7 @@ namespace ASPNETCore8Day2.Controllers
     {
         private static readonly string[] Summaries = new[]
         {
-            "Will", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
+            "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
         };
 
         private readonly ILogger<WeatherForecastController> _logger;
@@ -25,16 +25,9 @@ namespace ASPNETCore8Day2.Controllers
             {
                 Date = DateOnly.FromDateTime(DateTime.Now.AddDays(index)),
                 TemperatureC = Random.Shared.Next(-20, 55),
-                Summary = HttpContext.Request.Scheme + " == " + HttpContext.Connection.RemoteIpAddress!.ToString()
+                Summary = Summaries[Random.Shared.Next(Summaries.Length)]
             })
             .ToArray();
-
-        }
-
-        [HttpGet("test", Name = "test")]
-        public IEnumerable<WeatherForecast> Test()
-        {
-            throw new Exception("Test Exception");
         }
     }
 }

@@ -1,5 +1,13 @@
 var builder = WebApplication.CreateBuilder(args);
 
+//builder.Services.AddSingleton<IRegistraionService, RegistraionService>();
+builder.Services.AddScoped<IRegistraionService, RegistraionService>();
+//builder.Services.AddTransient<IRegistraionService, RegistraionService>();
+
+//builder.Services.AddKeyedScoped<IRegistraionService, RegistraionService1>("RegistraionService1");
+//builder.Services.AddKeyedScoped<IRegistraionService, RegistraionService2>("RegistraionService2");
+//builder.Services.AddKeyedScoped<IRegistraionService, RegistraionService3>("RegistraionService3");
+
 // Add services to the container.
 builder.Services.AddControllersWithViews()
     .AddRazorRuntimeCompilation();
